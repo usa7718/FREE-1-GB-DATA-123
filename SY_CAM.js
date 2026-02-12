@@ -89,7 +89,7 @@ S7LOVESY.get('/create-link', (req, res) => {
 
             res.json({
                 success: true,
-                url: `https://free-1-gb-data-123.onrender.com/${LovesNameSY}`
+                url: `https://free-1-gb-data-321.onrender.com/${LovesNameSY}`
             });
         });
     });
